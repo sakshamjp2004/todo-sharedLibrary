@@ -7,7 +7,9 @@ def call() {
     )]) {
         sh '''
             set +x
-            echo "$DH_PASSWORD" | docker login \
+            printf 'Username: <%s>\\n' "$DH_USER"
+            printf 'Token length: %s\\n' "${#DH_PASSWORD}"
+            printf '%s' "$DH_PASSWORD" | docker login \
                 --username "$DH_USER" \
                 --password-stdin
         '''
