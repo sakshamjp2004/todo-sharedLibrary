@@ -1,6 +1,15 @@
 
 def call() {
-        sh """
-            docker login -u shamrock2004 -p dckr_pat_5uGcaAQmlcl9COFB2H3L_Z87zS0
-        """
+    withCredentials([usernamePassword(
+        credentialsId: 'dockerhub-creds',
+        usernameVariable: 'DH_USER',
+        passwordVariable: 'DH_PASSWORD'
+    )]) {
+        sh '''
+            set +x
+            printf '%s' "$DH_PASSWORD" | docker login \
+                --username "$DH_USER" \
+                --password-stdin
+        '''
     }
+}
